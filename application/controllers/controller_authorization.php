@@ -9,9 +9,7 @@ class Controller_Authorization extends Controller
     {
 
         if(isset($_POST['submit'])) {
-            echo $_POST["login"],$_POST["pass"],$_POST["info"],$_POST["passtwo"];
-            if(!$this->model->addUser($_POST["login"],$_POST["pass"],$_POST["info"],$_POST["passtwo"]))
-                echo "Ne smog";
+            $this->model->addUser($_POST["login"],$_POST["pass"],$_POST["info"],$_POST["passtwo"]);
         }
         $this->view->generate('auth_view.php', 'template_view.php');
     }

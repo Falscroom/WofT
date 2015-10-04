@@ -20,11 +20,12 @@ class Model
 	function executeQuery_Simple() { // выполняет запрос и возвращает требуемый результат (ничего, всё, строку)
 		try {
 			$this->query->execute();
+			return true;
 		}
 		catch(PDOException $e) {
 			$this->errorCode = $e->getCode();
 		}
-		return NULL;
+		return false;
 	}
 	function executeQuery_Row() {
 		try {
@@ -35,7 +36,7 @@ class Model
 		catch(PDOException $e) {
 			$this->errorCode = $e->getCode();
 		}
-		return NULL;
+		return false;
 	}
 	function executeQuery_All() {
 		try{
@@ -46,6 +47,6 @@ class Model
 		catch(PDOException $e) {
 			$this->errorCode = $e->getCode();
 		}
-		return NULL;
+		return false;
 	}
 }
