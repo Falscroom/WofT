@@ -23,19 +23,18 @@ class Model_Login extends Model
         return false;
     }
     private function createCookie() {
-        setcookie("user_id", $this->thisUser['user_id'], time()+TIME);
+        setcookie("user_id", $this->thisUser['id'], time()+TIME);
         setcookie("hash", $this->hash, time()+TIME);
         setcookie("login", $this->thisUser['login'], time()+TIME);
     }
     function approveUser($login,$pass) {
         if($this->checkPass($pass,$login)) { #ПРОВЕРЯЕМ ПРАВИЛЬНОСТЬ ПАРОЛЯ
-            $ip = 0;
             $time = time() + 60 * 2;
+            var_dump($time);
             $this->hash = md5($this->generateCode(10));
-            $this->prepareQuery("INSERT INTO sessions SET user_id=:id, time=:time, hash=:hash");
-            /*$this->prepareQuery("UPDATE user SET hash=:hash, ip=:ip WHERE id=:id");*/
+            $this->prepareQuery("INSERT INTO sessions SET user_id=:id, s_hash=:hash,s_time=:time");
             $this->query->bindParam(':hash',$this->hash);
-            $this->query->bindParam(':id',$this->thisUser['user_id']);
+            $this->query->bindParam(':id',$this->thisUser['id']);
             $this->query->bindParam(':time',$time); // Два часа!
             $this->executeQuery_Simple();
             $this->createCookie(); // Создаем куки

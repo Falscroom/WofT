@@ -36,9 +36,9 @@ class Model_Authorization extends Model
         if($this->checkUserInDB($login) && $this->checkWithRegularExp($login) && ($this->checkPass($password,$password2))) {
             $password = md5(md5(trim($password)));
             $this->prepareQuery("INSERT INTO users SET login=:login, password=:password,contact_info=:contacts");
-            $this->query->bindParam(':login',$login);
-            $this->query->bindParam(':password',$password);
-            $this->query->bindParam(':contacts',$contacts);
+            $this->query->bindParam(':login',$login,PDO::PARAM_STR);
+            $this->query->bindParam(':password',$password,PDO::PARAM_STR);
+            $this->query->bindParam(':contacts',$contacts,PDO::PARAM_STR);
             $this->executeQuery_Simple();
             return true;
         }
