@@ -22,9 +22,9 @@
                <li><a href="feedback">Обратная связь</a></li>
                <?php if ($data['login']): ?>
                    <li class="navbar-right" data-toggle="modal" data-target="#myModal"><a ><?  echo $_COOKIE['login']; ?></a></li>
-               <? else: ?>
+               <?php else: ?>
                    <li class="navbar-right"><a href="login" data-toggle="modal" data-target="#myModal">Вход</a></li>
-               <? endif; ?>
+               <?php endif; ?>
            </ul>
          </div>
          <?php include 'application/views/'.$content_view; ?>
