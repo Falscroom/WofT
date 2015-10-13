@@ -13,8 +13,15 @@ class Model_Authorization extends Model
         }
         return true;
     }
-    private function checkUserInDB($login) {
-        $this->prepareQuery("SELECT COUNT(id) FROM users WHERE login=:login");
+    public function getOptions() {
+        $this->prepareQuery("SELECT * FROM groups");
+        return $this->executeQuery_All();
+    }
+    private function checkUserInDB($login,$stuff) {
+        if($stuff)
+            $this->prepareQuery("SELECT COUNT(id) FROM stuff WHERE login=:login");
+        else
+            $this->prepareQuery("SELECT COUNT(id) FROM users WHERE login=:login");
         $this->query->bindParam(':login',$login);
         $data =  $this->executeQuery_Row();
         if($data[0] > 0)
@@ -32,13 +39,17 @@ class Model_Authorization extends Model
         }
         return true;
     }
-    public function addUser($login,$password,$contacts,$password2) {
-        if($this->checkUserInDB($login) && $this->checkWithRegularExp($login) && ($this->checkPass($password,$password2))) {
+    public function addUser($login,$password,$contacts,$password2,$nmf,$group,$stuff = false) {
+        if($this->checkUserInDB($login,$stuff) && $this->checkWithRegularExp($login) && ($this->checkPass($password,$password2))) {
             $password = md5(md5(trim($password)));
-            $this->prepareQuery("INSERT INTO users SET login=:login, password=:password,contact_info=:contacts");
+            if($stuff)
+                $this->prepareQuery("INSERT INTO stuff(id, approved, login, password, NMF, contact_info) VALUES (NULL,false,:login,:password,:nmf,:contacts)");
+            else
+                $this->prepareQuery("INSERT INTO users SET login=:login, password=:password,contact_info=:contacts,NMF=:nmf");
             $this->query->bindParam(':login',$login,PDO::PARAM_STR);
             $this->query->bindParam(':password',$password,PDO::PARAM_STR);
             $this->query->bindParam(':contacts',$contacts,PDO::PARAM_STR);
+            $this->query->bindParam(':nmf',$nmf,PDO::PARAM_STR);
             $this->executeQuery_Simple();
             return true;
         }

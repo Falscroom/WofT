@@ -1,15 +1,25 @@
-	<div class="container">
-   		<div class="row">
-   			<h1>Контакты</h1>
-			<p>
-				<br/>
-				<a href="http://vk.com/bukvaeshka">ВКонтакте</a><br/>
-				<a href="mailto:mrak.mk@ya.ru">E-Mail</a><br/>
-				<br/>
-				<iframe align="left" src="https://maps.google.ru/maps?f=q&amp;source=s_q&amp;hl=ru&amp;geocode=&amp;q=%D0%91%D0%BE%D0%B1%D1%80%D1%83%D0%B9%D1%81%D0%BA,+%D0%91%D0%B5%D0%BB%D0%B0%D1%80%D1%83%D1%81%D1%8C&amp;sll=53.174971,29.250412&amp;sspn=0.127788,0.363579&amp;ie=UTF8&amp;hq=&amp;hnear=%D0%91%D0%BE%D0%B1%D1%80%D1%83%D0%B9%D1%81%D0%BA,+%D0%9C%D0%BE%D0%B3%D0%B8%D0%BB%D1%91%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C,+%D0%91%D0%B5%D0%BB%D0%B0%D1%80%D1%83%D1%81%D1%8C&amp;ll=53.163,29.241&amp;spn=0.063897,0.181789&amp;t=m&amp;z=13&amp;iwloc=A&amp;output=embed"
-				frameborder="0" marginwidth="0" marginheight="0" scrolling="no" align="right" width="450" height="380">
-				</iframe>
-		    </p>
-		</div>
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?117"></script>
+<script type="text/javascript">
+  VK.init({apiId: 5102220, onlyWidgets: true});
+</script>
+<div class="container">
+	<div class="row">
+		<h1>Отзывы</h1>
+		<p>
+			<br/>
+			<div id="vk_comments"></div>
+		<script type="text/javascript">
+			VK.Widgets.Comments("vk_comments", {limit: 100, width: "665", attach: "*"});
+		</script>
+		</p>
+		<h1>Контакты</h1>
+		<p>
+			<br/>
+			<a href="http://vk.com/id169905747">Группа в социальной сети ВКонтакте</a><br/>
+			<a href="mailto:falscroom@gmail.com">Написать на электронную почту</a><br/>
+			<br/>
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2916.802831652415!2d131.89165901577962!3d43.024537100870845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5fb39209e3e6c0db%3A0x67021f710b7736ed!2z0JTQsNC70YzQvdC10LLQvtGB0YLQvtGH0L3Ri9C5INGE0LXQtNC10YDQsNC70YzQvdGL0Lkg0YPQvdC40LLQtdGA0YHQuNGC0LXRgg!5e0!3m2!1sru!2sru!4v1444559343741" width="665" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+	    </p>
 	</div>
-	<br>
+</div>
+<br>
