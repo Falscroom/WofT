@@ -14,9 +14,9 @@ class Model_Login extends Model
         return $code;
     }
     public function checkPass($pass,$login) {
-        $this->prepareQuery('SELECT id, password ,login FROM users WHERE login=:login LIMIT 1'); // Warning!!!
+        $this->prepare('SELECT id, password ,login FROM users WHERE login=:login LIMIT 1'); // Warning!!!
         $this->query->bindParam(':login',$login);
-        $this->thisUser = $this->executeQuery_Row();
+        $this->thisUser = $this->execute_row();
         if($this->thisUser["password"] === md5(md5($pass))) {
             return true;
         }
@@ -32,11 +32,11 @@ class Model_Login extends Model
             $time = time() + 60 * 2;
             var_dump($time);
             $this->hash = md5($this->generateCode(10));
-            $this->prepareQuery("INSERT INTO sessions SET user_id=:id, s_hash=:hash,s_time=:time");
+            $this->prepare("INSERT INTO sessions SET user_id=:id, s_hash=:hash,s_time=:time");
             $this->query->bindParam(':hash',$this->hash);
             $this->query->bindParam(':id',$this->thisUser['id']);
             $this->query->bindParam(':time',$time); // Два часа!
-            $this->executeQuery_Simple();
+            $this->execute_simple();
             $this->createCookie(); // Создаем куки
             return true;
         }

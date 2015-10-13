@@ -3,17 +3,17 @@
     <div class="row">
         <form role="form" method="POST"   >
             <div class="form-group">
-                <label for="exampleInputEmail1">Логин</label>
-                <input type="login" class="form-control" id="exampleInputEmail1" name="login" placeholder="Введите ваш логин" required>
+                <label for="login">Логин</label>
+                <input type="text" class="form-control" id="login" name="login" placeholder="Введите ваш логин" required>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Пароль</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="pass" placeholder="Введите ваш пароль" required>
+                <label for="password">Пароль</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Введите ваш пароль" required>
             </div>
 
             <div class="form-group">
-                <label for="passtwo">Повторите пароль</label>
-                <input type="password" class="form-control" id="passtwo" name="passtwo" placeholder="Повторите ваш пароль" required>
+                <label for="confirm_password">Повторите пароль</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Повторите ваш пароль" required>
             </div>
 
             <div class="form-group">
@@ -36,13 +36,13 @@
             </div>
 
             <div class="form-group">
-                <label for="FIO">ФИО</label>
-                <input type="text" class="form-control" id="NMF" name="nmf" placeholder="Ваше фамилия имя и отчество" required>
+                <label for="user_info">ФИО</label>
+                <input type="text" class="form-control" id="user_info" name="user_info" placeholder="Ваше фамилия имя и отчество" required>
             </div>
 
             <div class="form-group">
-                <label for="info">Контактная информация</label>
-                <input type="text" class="form-control" id="info" name="info" placeholder="Как мы можем найти вас?" required>
+                <label for="contacts">Контактная информация</label>
+                <input type="text" class="form-control" id="contacts" name="contacts" placeholder="Как мы можем найти вас?" required>
             </div>
 
 

@@ -13,10 +13,10 @@ class Controller_Registration extends Controller
 
         return (object) [
             "login" => $_POST["login"],
-            "password" => $_POST["pass"],
-            "confirm_password" => $_POST["passtwo"],
-            "contacts" => $_POST["info"],
-            "user_info" => $_POST["nmf"],
+            "password" => $_POST["password"],
+            "confirm_password" => $_POST["confirm_password"],
+            "contacts" => $_POST["contacts"],
+            "user_info" => $_POST["user_info"],
             "if_stuff" => $if_stuff,
             "group" => $group
         ];
@@ -24,18 +24,9 @@ class Controller_Registration extends Controller
     function action_index()
     {
         if(isset($_POST['submit'])) {
-            $group = false;
-            if($_POST["if_stuff"] == "Нет") {
-                if(!$_POST["group"] == "Не знаю / Я преподаватель")
-                    $group = $_POST["group"];
-                $this->model->addUser($_POST["login"], $_POST["pass"], $_POST["info"], $_POST["passtwo"],$_POST["nmf"],$group);
-            }
-            else
-                $this->model->addUser($_POST["login"], $_POST["pass"], $_POST["info"], $_POST["passtwo"],$_POST["nmf"],$group,true);
-
-
+            $this->model->add_user($this->create_user());
         }
-        $data["options"] = $this->model->getOptions();
+        $data["options"] = $this->model->get_options();
         $this->view->generate('registration_view.php', 'template_view.php',$data);
     }
 }

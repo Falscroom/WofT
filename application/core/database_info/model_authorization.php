@@ -8,17 +8,17 @@ class Authorization extends Model {
         }
     }
     private function deleteSessions() {
-        $this->prepareQuery("DELETE FROM sessions WHERE user_id=:id");
+        $this->prepare("DELETE FROM sessions WHERE user_id=:id");
         $this->query->bindParam(':id',intval($_COOKIE['user_id']));
-        $this->executeQuery_Simple();
+        $this->execute_simple();
     }
     public function mainApproveLogin() {
         if (isset($_COOKIE['user_id']) and isset($_COOKIE['hash']))
         {
-            $this->prepareQuery("SELECT * FROM sessions WHERE user_id = :id AND s_hash=:hash LIMIT 1");
+            $this->prepare("SELECT * FROM sessions WHERE user_id = :id AND s_hash=:hash LIMIT 1");
             $this->query->bindParam(':id',intval($_COOKIE['user_id']));
             $this->query->bindParam(':hash',$_COOKIE['hash']);
-            $userData = $this->executeQuery_Row();
+            $userData = $this->execute_row();
             if(($userData['s_hash'] !== $_COOKIE['hash']) or ($userData['user_id'] !== $_COOKIE['user_id']) or ($userData['s_time'] < time()))
             {   #в этом случае сносим существующие куки
                 $this->deleteSessions();
