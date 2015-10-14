@@ -6,10 +6,12 @@ class Controller_Registration extends Controller
         $this->model = new Model_Authorization();
     }
     function create_user() {
+        $if_stuff = NULL;
+        if($_POST["if_stuff"] == "Да")
+            $if_stuff = false;
         $group = false;
-        if($_POST["group"] != "Не знаю / Я преподаватель")
+        if($_POST["group"] != "Не знаю / Я преподаватель" && $if_stuff === NULL)
             $group = $_POST["group"];
-        $if_stuff = $_POST["if_stuff"] == "Да";
 
         return (object) [
             "login" => $_POST["login"],
@@ -18,7 +20,7 @@ class Controller_Registration extends Controller
             "contacts" => $_POST["contacts"],
             "user_info" => $_POST["user_info"],
             "if_stuff" => $if_stuff,
-            "group" => $group
+            "user_group" => $group
         ];
     }
     function action_index()

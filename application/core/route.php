@@ -54,7 +54,7 @@ class Route
         // создаем контроллер
         $controller = new $controller_name;
         $action = $action_name;
-        
+
         if(method_exists($controller, $action))
         {
             // вызываем действие контроллера
@@ -62,6 +62,8 @@ class Route
         }
         else
         {
+            $controller->action_index(array_slice($routes,3));
+
          //   Route::ErrorPage404();
         }
     

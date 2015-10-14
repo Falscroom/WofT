@@ -6,7 +6,7 @@ class Controller_Main extends Controller
         $this->model = new Model_Main();
     }
     function action_index()
-    {	$data = [];
+    {
         if($this->model->mainApproveLogin()) {
             $data['login'] = $_COOKIE['login'];
         }

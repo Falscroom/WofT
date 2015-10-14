@@ -29,7 +29,7 @@
                     <option>Не знаю / Я преподаватель</option>
                     <?php
                     foreach($data["options"] as $group) {
-                        echo "<option>" . $group["name"] . "</option>";
+                        echo "<option>" . $group["group_name"] . "</option>";
                     }
                     ?>
                 </select>
