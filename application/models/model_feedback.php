@@ -1,3 +1,3 @@
 <?php
-Class Model_Feedback extends Model {
+Class Model_Feedback extends Authorization {
 }

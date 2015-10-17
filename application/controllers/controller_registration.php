@@ -25,9 +25,9 @@ class Controller_Registration extends Controller
     }
     function action_index()
     {
-        if(isset($_POST['submit'])) {
+        if(isset($_POST['submit']))
             $this->model->add_user($this->create_user());
-        }
+        $data["login"] = $this->model->get_login();
         $data["options"] = $this->model->get_options();
         $this->view->generate('registration_view.php', 'template_view.php',$data);
     }

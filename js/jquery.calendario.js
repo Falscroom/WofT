@@ -21,19 +21,6 @@
 
 	// the options
 	$.Calendario.defaults = {
-		/*
-		you can also pass:
-		month : initialize calendar with this month (1-12). Default is today.
-		year : initialize calendar with this year. Default is today.
-		caldata : initial data/content for the calendar.
-		caldata format:
-		{
-			'MM-DD-YYYY' : 'HTML Content',
-			'MM-DD-YYYY' : 'HTML Content',
-			'MM-DD-YYYY' : 'HTML Content'
-			...
-		}
-		*/
 		weeks : [ 'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота' ],
 		weekabbrs : [ 'Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ],
 		months : [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ],

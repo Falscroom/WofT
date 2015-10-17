@@ -7,8 +7,9 @@ class Controller_Calendar extends Controller
     }
     function action_index()
     {
-        $this->model->getDates();
-        $this->view->generate('calendar_view.php', 'template_view.php');
+        $data["login"] = $this->model->get_login();
+        $data["rights"] = $this->model->get_rights();
+        $this->view->generate('calendar_view.php', 'template_view.php',$data);
         print("\50");
 
     }

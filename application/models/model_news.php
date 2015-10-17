@@ -1,3 +1,3 @@
 <?php
-Class Model_News extends Model {
+Class Model_News extends Authorization {
 }

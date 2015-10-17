@@ -6,7 +6,8 @@ class Controller_Book extends Controller
         $this->model = new Model_Book();
     }
     function action_index()
-    {	
-        $this->view->generate('book_view.php', 'template_view.php');
+    {
+        $data["login"] = $this->model->get_login();
+        $this->view->generate('book_view.php', 'template_view.php',$data);
     }
 }

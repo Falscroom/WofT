@@ -22,10 +22,9 @@
 
 <script type="text/javascript">
         $.ajax({
-                url: "http://localhost/WofT/calendar/date",
+                url: "/calendar/date",
                 success: function(codropsEvents){
 
-                        console.log(codropsEvents);
                         $(function() {
                                 var transEndEventNames = {
                                             'WebkitTransition' : 'webkitTransitionEnd',
@@ -43,6 +42,12 @@
                                                     if( $contentEl.length > 0 ) {
                                                             showEvents( $contentEl, dateProperties );
                                                     }
+                                                    <?php if($data["rights"]): ?>
+                                                    else
+                                                        date = dateProperties.month+"-"+dateProperties.day+"-"+dateProperties.year;
+                                                        window.location.replace("/admin/create_event/"+date);
+                                                    <?php endif; ?>
+
 
                                             },
                                             caldata : codropsEvents,

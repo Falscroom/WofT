@@ -1,5 +1,5 @@
 <?php
-Class Model_Calendar extends Model {
+Class Model_Calendar extends Authorization {
     public function getDates() {
         $this->prepare("SELECT * FROM events");
         $events_array = $this->execute_all();

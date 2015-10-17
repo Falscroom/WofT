@@ -1,5 +1,5 @@
 <?php
-class Model_Authorization extends Model
+class Model_Authorization extends Authorization
 {
     public $errors = array();
     private function check_login($login) {

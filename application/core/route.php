@@ -9,16 +9,16 @@ class Route
         $routes = explode('/', $_SERVER['REQUEST_URI']);
     //    var_dump($routes);
         // получаем имя контроллера
-        if ( !empty($routes[2]) )
+        if ( !empty($routes[1]) )
         {	
-            $controller_name = $routes[2];
+            $controller_name = $routes[1];
         }
 
         //var_dump($controller_name);
         // получаем имя экшена
-        if ( !empty($routes[3]) )
+        if ( !empty($routes[2]) )
         {
-            $action_name = $routes[3];
+            $action_name = $routes[2];
         }
 
         // добавляем префиксы
@@ -58,11 +58,11 @@ class Route
         if(method_exists($controller, $action))
         {
             // вызываем действие контроллера
-            $controller->$action();
+            $controller->$action(NULL);
         }
         else
         {
-            $controller->action_index(array_slice($routes,3));
+            $controller->action_index(array_slice($routes,2));
 
          //   Route::ErrorPage404();
         }

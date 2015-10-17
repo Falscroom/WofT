@@ -1,33 +1,48 @@
 <?php
 class Authorization extends Model {
-    static function logOut() {
+    private $current_rights = NULL;
+    static function delete_cookie() {
         if(isset($_COOKIE['hash'])) {
             setcookie("user_id", "", time() - TIME*12);
             setcookie("hash", "", time() - TIME*12);
             setcookie("login", "", time() - TIME*12);
         }
     }
-    private function deleteSessions() {
+    public function delete_session() {
         $this->prepare("DELETE FROM sessions WHERE user_id=:id");
         $this->query->bindParam(':id',intval($_COOKIE['user_id']));
         $this->execute_simple();
+        Authorization::delete_cookie();
     }
-    public function mainApproveLogin() {
+    public function get_login() {
+        if(!$this->current_rights)
+            $this->current_rights = $this->approve_session();
+        if($this->current_rights !== false)
+            return $_COOKIE['login'];
+        return NULL;
+    }
+    public function get_rights() {
+        if(!$this->current_rights)
+            $this->current_rights = $this->approve_session();
+        return $this->current_rights;
+    }
+    public function approve_session($login = NULL) {
         if (isset($_COOKIE['user_id']) and isset($_COOKIE['hash']))
         {
-            $this->prepare("SELECT * FROM sessions WHERE user_id = :id AND s_hash=:hash LIMIT 1");
+            $this->prepare("SELECT sessions.*,users.login,users.rights FROM sessions,users
+WHERE user_id = :id AND s_hash=:hash  AND users.id = sessions.user_id LIMIT 1");
             $this->query->bindParam(':id',intval($_COOKIE['user_id']));
             $this->query->bindParam(':hash',$_COOKIE['hash']);
-            $userData = $this->execute_row();
-            if(($userData['s_hash'] !== $_COOKIE['hash']) or ($userData['user_id'] !== $_COOKIE['user_id']) or ($userData['s_time'] < time()))
+            $user_data = $this->execute_row();
+            if(($user_data['s_hash'] !== $_COOKIE['hash']) or ($user_data['user_id'] !== $_COOKIE['user_id'])
+                or ($user_data['s_time'] < time()) or ($login !== NULL && $login !== $user_data["login"]))
             {   #в этом случае сносим существующие куки
-                $this->deleteSessions();
-                Authorization::logOut();
+                $this->delete_session();
                 return false;
             }
             else
             {
-                return true;
+                return $user_data["rights"];
             }
         }
         else {

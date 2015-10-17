@@ -5,8 +5,11 @@ class Controller_Profile extends Controller
         $this->view = new View;
         $this->model = new Model_Profile();
     }
-    function action_index()
+    function action_index($login)
     {
-        $this->view->generate('profile_view.php', 'template_view.php');
+        $data["login"] = $this->model->get_login();
+        if($login)
+            $data["user"] = $this->model->get_user($login[0]);
+        $this->view->generate('profile_view.php', 'template_view.php',$data);
     }
 }
