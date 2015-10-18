@@ -1,6 +1,10 @@
-<?php
-define("HOST","localhost");
-define("LOGIN","root");
-define("PASS","");
-define("BASENAME","WofT");
-define("TIME",60*60*24);
+ <?php
+-define("HOST","localhost");
++define("HOST","mysql.hostinger.ru");
+-define("LOGIN","root");
++define("LOGIN","u513210783_user");
+-define("PASS","");
++define("PASS","123456");
+-define("BASENAME","WofT");
++define("BASENAME","u513210783_base");
+ define("TIME",60*60*24);
