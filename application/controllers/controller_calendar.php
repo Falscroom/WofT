@@ -10,7 +10,6 @@ class Controller_Calendar extends Controller
         $data["login"] = $this->model->get_login();
         $data["rights"] = $this->model->get_rights();
         $this->view->generate('calendar_view.php', 'template_view.php',$data);
-        print("\50");
 
     }
     function action_date() {

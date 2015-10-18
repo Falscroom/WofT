@@ -17,7 +17,7 @@ class Model
 	function prepare($query) { // Подгатавливает запрос
 		$this->query = $this->link->prepare($query);
 	}
-	function execute_simple() { // выполняет запрос и возвращает требуемый результат (ничего, всё, строку)
+	function execute_simple() {
 		try {
 			$this->query->execute();
 			return true;

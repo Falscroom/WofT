@@ -4,7 +4,7 @@
 </script>
 <div class="container">
 	<div class="row">
-		<h1>Отзывы</h1>
+		<h2>Отзывы</h2>
 		<p>
 			<br/>
 			<div id="vk_comments"></div>

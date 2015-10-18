@@ -13,8 +13,9 @@ class Model_Authorization extends Authorization
         }*/
         return true;
     }
+
     public function get_options() {
-        $this->prepare("SELECT * FROM groups");
+        $this->prepare("SELECT group_name FROM groups");
         return $this->execute_all();
     }
     private function get_group_id($group_name) {

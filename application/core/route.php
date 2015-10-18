@@ -48,7 +48,7 @@ class Route
             правильно было бы кинуть здесь исключение,
             но для упрощения сразу сделаем редирект на страницу 404
             */
-          //  Route::ErrorPage404();
+            Route::ErrorPage404();
         }
         
         // создаем контроллер
@@ -58,7 +58,7 @@ class Route
         if(method_exists($controller, $action))
         {
             // вызываем действие контроллера
-            $controller->$action(NULL);
+            $controller->$action(array_slice($routes,3));
         }
         else
         {
@@ -69,7 +69,7 @@ class Route
     
     }
     
-    function ErrorPage404()
+    static function ErrorPage404()
     {
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');

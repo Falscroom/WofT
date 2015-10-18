@@ -19,7 +19,7 @@
 		
 	};
 
-	// the options
+	// the options!
 	$.Calendario.defaults = {
 		weeks : [ 'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота' ],
 		weekabbrs : [ 'Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ],
@@ -48,6 +48,7 @@
 			this.caldata = this.options.caldata || {};
 			this._generateTemplate();
 			this._initEvents();
+
 
 		},
 		_initEvents : function() {
@@ -154,7 +155,7 @@
 						}
 
 						if( content !== '' ) {
-							alert(content);
+							//alert(content);
 							inner += '<div>' + content + '</div>';
 						}
 

@@ -1,3 +1,10 @@
+<style>
+    .ca_container {
+        margin-top: -29px;
+        height: 25px;
+/*        background-color: red;*/
+    }
+</style>
 <div class="container">
         <section class="main">
                 <div class="custom-calendar-wrap">
@@ -16,15 +23,13 @@
         </section>
 </div>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.calendario.js"></script>
-<script type="text/javascript" src="js/data.js"></script>
 
 <script type="text/javascript">
         $.ajax({
                 url: "/calendar/date",
                 success: function(codropsEvents){
-
                         $(function() {
                                 var transEndEventNames = {
                                             'WebkitTransition' : 'webkitTransitionEnd',
@@ -43,9 +48,10 @@
                                                             showEvents( $contentEl, dateProperties );
                                                     }
                                                     <?php if($data["rights"]): ?>
-                                                    else
-                                                        date = dateProperties.month+"-"+dateProperties.day+"-"+dateProperties.year;
-                                                        window.location.replace("/admin/create_event/"+date);
+                                                    else {
+                                                        date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
+                                                        window.location.replace("/admin/create_event/" + date);
+                                                    }
                                                     <?php endif; ?>
 
 
@@ -72,7 +78,8 @@
 
                                         hideEvents();
 
-                                        var $events = $( '<div id="custom-content-reveal" class="custom-content-reveal"><h4>Событие на ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>' ),
+                                        var $events = $( '<div id="custom-content-reveal" class="custom-content-reveal"><h4>Событие на ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4>' +
+                                                '<div class="ca_container"></div></div>' ),
                                             $close = $( '<span class="custom-content-close"></span>' ).on( 'click', hideEvents );
 
                                         $events.append( $contentEl.html() , $close ).insertAfter( $wrapper );
@@ -81,8 +88,11 @@
                                                 $events.css( 'top', '0%' );
                                         }, 25 );
 
+                                    $.getScript("js/several_events.js");
+
                                 }
                                 function hideEvents() {
+
 
                                         var $events = $( '#custom-content-reveal' );
                                         if( $events.length > 0 ) {
@@ -100,4 +110,3 @@
         });
 
 </script>
-

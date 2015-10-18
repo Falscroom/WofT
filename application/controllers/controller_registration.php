@@ -6,11 +6,9 @@ class Controller_Registration extends Controller
         $this->model = new Model_Authorization();
     }
     function create_user() {
-        $if_stuff = NULL;
-        if($_POST["if_stuff"] == "Да")
-            $if_stuff = false;
-        $group = false;
-        if($_POST["group"] != "Не знаю / Я преподаватель" && $if_stuff === NULL)
+        $if_stuff = $_POST["if_stuff"] == "Да";
+        $group = NULL;
+        if($_POST["group"] != "Не знаю / Я преподаватель" && !$if_stuff)
             $group = $_POST["group"];
 
         return (object) [
