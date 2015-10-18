@@ -10,9 +10,10 @@ class Controller_Login extends Controller
     {
         if(isset($_POST['submit'])) {
             if($this->model->approveUser($_POST['login'],$_POST['password'])) {
-                header("Location: main");
+                header("Location: /main");
             }
         }
-        $this->view->generate('login_view.php', 'template_view.php');
+        $data["login"] = $this->model->get_login();
+        $this->view->generate('login_view.php', 'template_view.php',$data);
     }
 }

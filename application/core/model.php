@@ -14,10 +14,10 @@ class Model
 			$this->errorCode = $e->getCode();
 		}
 	}
-	function prepareQuery($query) { // Подгатавливает запрос
+	function prepare($query) { // Подгатавливает запрос
 		$this->query = $this->link->prepare($query);
 	}
-	function executeQuery_Simple() { // выполняет запрос и возвращает требуемый результат (ничего, всё, строку)
+	function execute_simple() {
 		try {
 			$this->query->execute();
 			return true;
@@ -27,9 +27,9 @@ class Model
 		}
 		return false;
 	}
-	function executeQuery_Row() {
+	function execute_row() {
 		try {
-			$this->executeQuery_Simple();
+			$this->execute_simple();
 			$arr =  $this->query->fetch();
 			return $arr;
 		}
@@ -38,9 +38,9 @@ class Model
 		}
 		return false;
 	}
-	function executeQuery_All() {
+	function execute_all() {
 		try{
-			$this->executeQuery_Simple();
+			$this->execute_simple();
 			$arr =  $this->query->fetchAll();
 			return $arr;
 		}

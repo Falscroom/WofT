@@ -1,5 +1,5 @@
 <?php
-class Model_Login extends Model
+class Model_Login extends Authorization
 {
     private $thisUser;
     private $hash;
@@ -14,10 +14,10 @@ class Model_Login extends Model
         return $code;
     }
     public function checkPass($pass,$login) {
-        $this->prepareQuery('SELECT id, password ,login FROM users WHERE login=:login LIMIT 1'); // Warning!!!
+        $this->prepare('SELECT id, user_password ,login FROM users WHERE login=:login LIMIT 1'); // Warning!!!
         $this->query->bindParam(':login',$login);
-        $this->thisUser = $this->executeQuery_Row();
-        if($this->thisUser["password"] === md5(md5($pass))) {
+        $this->thisUser = $this->execute_row();
+        if($this->thisUser["user_password"] === md5(md5($pass))) {
             return true;
         }
         return false;
@@ -25,23 +25,23 @@ class Model_Login extends Model
     private function createCookie() {
         setcookie("user_id", $this->thisUser['id'], time()+TIME);
         setcookie("hash", $this->hash, time()+TIME);
-        setcookie("login", $this->thisUser['login'], time()+TIME);
+        setcookie("login", $this->thisUser['login'], time()+TIME); // TODO переделать кукисы под  object!
     }
     function approveUser($login,$pass) {
         if($this->checkPass($pass,$login)) { #ПРОВЕРЯЕМ ПРАВИЛЬНОСТЬ ПАРОЛЯ
-            $time = time() + 60 * 2;
+            $time = time() + TIME;
             var_dump($time);
             $this->hash = md5($this->generateCode(10));
-            $this->prepareQuery("INSERT INTO sessions SET user_id=:id, s_hash=:hash,s_time=:time");
+            $this->prepare("INSERT INTO sessions SET user_id=:id, s_hash=:hash,s_time=:time");
             $this->query->bindParam(':hash',$this->hash);
             $this->query->bindParam(':id',$this->thisUser['id']);
             $this->query->bindParam(':time',$time); // Два часа!
-            $this->executeQuery_Simple();
+            $this->execute_simple();
             $this->createCookie(); // Создаем куки
             return true;
         }
         else {
-            Authorization::logOut();
+            Authorization::delete_cookie();
             return false;
         }
     }
