@@ -2,7 +2,33 @@
     .ca_container {
         margin-top: -29px;
         height: 25px;
-/*        background-color: red;*/
+        /*background-color: red;*/
+    }
+    .select_container {
+        margin-right: 2px;
+        padding: 0;
+    }
+    .event_button {
+        background-color: white;
+        height: 25px;
+        text-align: center;
+        border: 1px solid;
+        margin-right: 2px;
+    }
+    .event_button:hover {
+        border-color: dodgerblue;
+    }
+    .select {
+        padding: 0;
+        height: 25px;
+        font-size: 14px;
+        border-radius: 0;
+    }
+    .select:focus {
+        box-shadow: none;
+    }
+    .link {
+        font-size: 14px;
     }
 </style>
 <div class="container">
@@ -30,6 +56,7 @@
         $.ajax({
                 url: "/calendar/date",
                 success: function(codropsEvents){
+                    console.log(codropsEvents);
                         $(function() {
                                 var transEndEventNames = {
                                             'WebkitTransition' : 'webkitTransitionEnd',
@@ -75,7 +102,6 @@
                                 }
 
                                 function showEvents( $contentEl, dateProperties ) {
-
                                         hideEvents();
 
                                         var $events = $( '<div id="custom-content-reveal" class="custom-content-reveal"><h4>Событие на ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4>' +
@@ -90,6 +116,11 @@
 
                                     $.getScript("js/several_events.js");
 
+                                    <?php if($data["rights"]): ?>
+                                        date = dateProperties.year + '.' + dateProperties.month + '.' + dateProperties.day;
+                                        $(".ca_container").append("<div class='col-md-2 event_button'><a style='font-size: 14px;padding: 0' href='/admin/delete_event/"+date+"'>Удалить</a></div>" +
+                                            "<div class='col-md-3 event_button'><a style='font-size: 14px;padding: 0' href=''>Редактировать</a></div>");
+                                    <?php endif; ?>
                                 }
                                 function hideEvents() {
 

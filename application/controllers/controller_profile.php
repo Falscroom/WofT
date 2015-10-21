@@ -10,6 +10,7 @@ class Controller_Profile extends Controller
         $data["login"] = $this->model->get_login();
         if($login)
             $data["user"] = $this->model->get_user($login[0]);
+        $data["rights"] = $this->model->get_rights();
         $this->view->generate('profile_view.php', 'template_view.php',$data);
     }
 }

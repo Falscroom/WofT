@@ -16,7 +16,7 @@
     }
 </style>
 <h2>
-   Создать событие на <?php if(isset($data["date"])) echo $data["date"] ?>
+   Создать событие
 </h2>
 <div class="container">
    <div class="row">

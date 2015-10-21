@@ -13,8 +13,11 @@
                 echo "Пользователь";
             if(!$data["user"]["rights"])
                 echo " (ваш статус неподтвержден!)";
-
             ?></div> </p>
+        <?php
+        if($data["rights"])
+            echo " <p><div class='col-md-6'><a href='/admin'>Перейти к администрированию</a></div></p>";
+        ?>
         <p><div><a href="/main/logout">Выйти из профиля</a></div></p>
     </div>
 </div>

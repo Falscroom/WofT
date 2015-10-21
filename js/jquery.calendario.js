@@ -152,6 +152,13 @@
 
 						if( dayData ) {
 							content = dayData;
+							if(typeof dayData == 'object')
+							{
+								content = '';
+								$.each(dayData, function(i,e) {
+									content += '<div class="event">' + e + '</div>';
+								})
+							}
 						}
 
 						if( content !== '' ) {

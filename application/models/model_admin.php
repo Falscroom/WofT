@@ -10,6 +10,14 @@ Class Model_Admin extends Authorization {
     }
     function check_date() { //TODO
     }
+    function get_id($array,$find_str,$column_name) {
+        return $array[ array_search($find_str,array_column($array, $column_name) ) ]["id"];
+    }
+    function get_events($date) {
+        $this->prepare("SELECT * FROM events WHERE ev_date =:ev_date");
+        $this->query->bindParam(":ev_date",$date,PDO::PARAM_STR);
+        return $this->execute_all();
+    }
     function create_event($event) {
         $this->prepare("INSERT INTO events(id,professor,ev_group,ev_date,ev_text)
 VALUES (NULL,:professor_id,:group_id,:ev_date,:ev_text)");
