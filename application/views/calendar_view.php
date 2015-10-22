@@ -9,6 +9,7 @@
         padding: 0;
     }
     .event_button {
+        cursor: pointer;
         background-color: white;
         height: 25px;
         text-align: center;
@@ -69,17 +70,15 @@
                                     $wrapper = $( '#custom-inner' ),
                                     $calendar = $( '#calendar' ),
                                     cal = $calendar.calendario( {
-                                            onDayClick : function( $el, $contentEl, dateProperties ) {
+                                            onDayClick : function( $el, $contentEl, dateProperties, rights ) {
 
                                                     if( $contentEl.length > 0 ) {
                                                             showEvents( $contentEl, dateProperties );
                                                     }
-                                                    <?php if($data["rights"]): ?>
-                                                    else {
+                                                    else if(rights) {
                                                         date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
                                                         window.location.replace("/admin/create_event/" + date);
                                                     }
-                                                    <?php endif; ?>
 
 
                                             },
@@ -116,11 +115,22 @@
 
                                     $.getScript("js/several_events.js");
 
-                                    <?php if($data["rights"]): ?>
-                                        date = dateProperties.year + '.' + dateProperties.month + '.' + dateProperties.day;
-                                        $(".ca_container").append("<div class='col-md-2 event_button'><a style='font-size: 14px;padding: 0' href='/admin/delete_event/"+date+"'>Удалить</a></div>" +
-                                            "<div class='col-md-3 event_button'><a style='font-size: 14px;padding: 0' href=''>Редактировать</a></div>");
-                                    <?php endif; ?>
+                                    $.ajax({
+                                        url: "/admin/get_rights",
+                                        success: function(rights){
+                                            if(rights) {
+                                                delete_button = $("<div class='col-md-2 event_button'><a style='font-size: 14px;padding: 0'>Удалить</a></div>")
+                                                .bind("click",function() {
+                                                    $.ajax({
+                                                        url: "/admin/delete_event/" + $(".custom-content-reveal").find("span").data()['id'],
+                                                        success: function() {
+                                                            window.location.replace("/calendar");
+                                                        }
+                                                    });
+                                                });
+                                                $(".ca_container").append(delete_button);
+                                            }
+                                        }});
                                 }
                                 function hideEvents() {
 

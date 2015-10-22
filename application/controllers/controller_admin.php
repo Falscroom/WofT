@@ -39,8 +39,14 @@ class Controller_Admin extends Controller
         else
             Route::ErrorPage404();
     }
-    function action_delete_event($date) {
-
-        $this->view->generate('delete_event_view.php', 'template_view.php');
+    function action_delete_event($id) {
+        $c_id = (int) $id[0];
+        if($this->model->get_rights())
+            $this->model->delete_event($c_id);
+        else
+            Route::ErrorPage404();
+    }
+    function action_get_rights() {
+        echo $this->model->get_rights();
     }
 }

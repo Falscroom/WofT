@@ -32,7 +32,7 @@
 		// left most day in the calendar
 		// 0 - Sunday, 1 - Monday, ... , 6 - Saturday
 		startIn : 1,
-		onDayClick : function( $el, $content, dateProperties ) { return false; }
+		onDayClick : function( $el, $content, dateProperties, rights ) { return false; }
 	};
 
 	$.Calendario.prototype = {
@@ -70,7 +70,11 @@
 					};
 
 				if( dateProp.day ) {
-					self.options.onDayClick( $cell, $content, dateProp );
+					$.ajax({
+						url: "/admin/get_rights",
+						success: function(rights){
+							self.options.onDayClick( $cell, $content, dateProp, rights );
+						}});
 				}
 
 			} );

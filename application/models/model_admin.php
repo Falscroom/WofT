@@ -18,6 +18,11 @@ Class Model_Admin extends Authorization {
         $this->query->bindParam(":ev_date",$date,PDO::PARAM_STR);
         return $this->execute_all();
     }
+    function delete_event($id) {
+        $this->prepare("DELETE FROM events WHERE id=:id");
+        $this->query->bindParam(":id",$id,PDO::PARAM_INT);
+        $this->execute_simple();
+    }
     function create_event($event) {
         $this->prepare("INSERT INTO events(id,professor,ev_group,ev_date,ev_text)
 VALUES (NULL,:professor_id,:group_id,:ev_date,:ev_text)");
