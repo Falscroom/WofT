@@ -8,9 +8,10 @@ class Controller_Admin extends Controller
     }
     function create_event($data) {
         if(!isset($_POST["group"]))
-            $_POST["group"] = NULL;
+            $_POST["group"] = $data["event"]["group_name"];
         if(!isset($_POST["professor"]))
-            $_POST["professor"] = NULL;
+            $_POST["professor"] = $data["event"]["user_info"];
+        var_dump($_POST["professor"]);
         return (object) [
             "ev_text" => $_POST["event_text"],
             "group_id" => $this->model->get_id($data["groups"],$_POST["group"],"group_name"),
@@ -59,8 +60,9 @@ class Controller_Admin extends Controller
         $data["professors"] = $this->model->get_professors();
         $data["groups"] = $this->model->get_groups();
         if(isset($_POST['submit'])) {
-            if($this->model->update_event($this->create_event($data),$int_id))
+            if($this->model->update_event($this->create_event($data),$int_id)) {
                 header("Location: /calendar");
+            }
         }
         $this->view->generate('update_event_view.php', 'template_view.php',$data);
     }

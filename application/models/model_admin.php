@@ -11,13 +11,8 @@ Class Model_Admin extends Authorization {
     function check_date() { //TODO
     }
     function get_id($array,$find_str,$column_name) {
-        return $array[ array_search($find_str,array_column($array, $column_name) ) ]["id"];
+        return (int) $array[ array_search($find_str,array_column($array, $column_name) ) ]["id"];
     }
-/*    function get_events($date) {
-        $this->prepare("SELECT * FROM events WHERE ev_date =:ev_date");
-        $this->query->bindParam(":ev_date",$date,PDO::PARAM_STR);
-        return $this->execute_all();
-    }*/
     function delete_event($id) {
         $this->prepare("DELETE FROM events WHERE id=:id");
         $this->query->bindParam(":id",$id,PDO::PARAM_INT);
@@ -39,6 +34,7 @@ FROM events,users,groups WHERE events.id=:id AND events.ev_group = groups.id AND
         return $this->execute_row();
     }
     function update_event($event,$id) {
+        var_dump($id);
         $this->prepare("UPDATE `events` SET
 `professor`=:professor_id,`ev_group`=:group_id,`ev_date`=:ev_date,`ev_text`=:ev_text WHERE id=:id");
         $this->query->bindParam(":professor_id",$event->professor_id,PDO::PARAM_INT);
