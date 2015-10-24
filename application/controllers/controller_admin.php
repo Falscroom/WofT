@@ -11,7 +11,6 @@ class Controller_Admin extends Controller
             $_POST["group"] = $data["event"]["group_name"];
         if(!isset($_POST["professor"]))
             $_POST["professor"] = $data["event"]["user_info"];
-        var_dump($_POST["professor"]);
         return (object) [
             "ev_text" => $_POST["event_text"],
             "group_id" => $this->model->get_id($data["groups"],$_POST["group"],"group_name"),

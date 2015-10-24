@@ -34,7 +34,6 @@ FROM events,users,groups WHERE events.id=:id AND events.ev_group = groups.id AND
         return $this->execute_row();
     }
     function update_event($event,$id) {
-        var_dump($id);
         $this->prepare("UPDATE `events` SET
 `professor`=:professor_id,`ev_group`=:group_id,`ev_date`=:ev_date,`ev_text`=:ev_text WHERE id=:id");
         $this->query->bindParam(":professor_id",$event->professor_id,PDO::PARAM_INT);
