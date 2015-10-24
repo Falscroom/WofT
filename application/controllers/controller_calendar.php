@@ -14,6 +14,6 @@ class Controller_Calendar extends Controller
     }
     function action_date() {
         header('Content-Type: application/json ');
-        echo $this->model->getDates();
+        echo $this->model->get_events();
     }
 }

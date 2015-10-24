@@ -17,6 +17,7 @@
         margin-right: 2px;
     }
     .event_button:hover {
+        overflow: hidden;
         border-color: dodgerblue;
     }
     .select {
@@ -28,8 +29,18 @@
     .select:focus {
         box-shadow: none;
     }
-    .link {
+    #link {
+        color: black;
+        padding: 0;
         font-size: 14px;
+    }
+    #link:hover {
+        text-decoration: none;
+    }
+    .event > .ev_professor,.event > .ev_group {
+        padding: 0;
+        text-align: left;
+        font-size: 16px;
     }
 </style>
 <div class="container">
@@ -119,16 +130,20 @@
                                         url: "/admin/get_rights",
                                         success: function(rights){
                                             if(rights) {
-                                                delete_button = $("<div class='col-md-2 event_button'><a style='font-size: 14px;padding: 0'>Удалить</a></div>")
-                                                .bind("click",function() {
+                                                delete_button = $("<div class='col-md-2 event_button'><a id='link' >Удалить</a></div>");
+                                                delete_button.bind("click",function() {
                                                     $.ajax({
-                                                        url: "/admin/delete_event/" + $(".custom-content-reveal").find("span").data()['id'],
+                                                        url: "/admin/delete_event/" + $(".custom-content-reveal").find("span.event").data()['id'],
                                                         success: function() {
                                                             window.location.replace("/calendar");
                                                         }
                                                     });
                                                 });
-                                                $(".ca_container").append(delete_button);
+                                                update_button = $("<div class='col-md-3 event_button'><a id='link' >Редактировать</a></div>");
+                                                update_button.bind("click",function() {
+                                                    window.location.replace("/admin/update_event/" + $(".custom-content-reveal").find("span.event").data()['id']);
+                                                });
+                                                $(".ca_container").append(delete_button,update_button);
                                             }
                                         }});
                                 }
@@ -139,7 +154,9 @@
                                         if( $events.length > 0 ) {
 
                                                 $events.css( 'top', '100%' );
-                                                Modernizr.csstransitions ? $events.on( transEndEventName, function() { $( this ).remove(); } ) : $events.remove();
+                                            $events.animate({'height':0},500,function() {
+                                                $events.remove();
+                                            });
 
                                         }
 

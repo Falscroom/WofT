@@ -24,7 +24,8 @@ class Controller_Registration extends Controller
     function action_index()
     {
         if(isset($_POST['submit']))
-            $this->model->add_user($this->create_user());
+            if($this->model->add_user($this->create_user()))
+                header("Location: /login");
         $data["login"] = $this->model->get_login();
         $data["options"] = $this->model->get_options();
         $this->view->generate('registration_view.php', 'template_view.php',$data);

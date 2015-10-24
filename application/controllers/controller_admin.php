@@ -7,6 +7,10 @@ class Controller_Admin extends Controller
         $this->model = new Model_Admin();
     }
     function create_event($data) {
+        if(!isset($_POST["group"]))
+            $_POST["group"] = NULL;
+        if(!isset($_POST["professor"]))
+            $_POST["professor"] = NULL;
         return (object) [
             "ev_text" => $_POST["event_text"],
             "group_id" => $this->model->get_id($data["groups"],$_POST["group"],"group_name"),
@@ -26,7 +30,7 @@ class Controller_Admin extends Controller
         $data["login"] = $this->model->get_login();
         $date_arr = explode("-",$date[0]);
         if(strlen($date[0]) >= 8 && substr_count($date[0],"-") == 2) // TODO  написать нормальную проверку даты
-            $data["date"] = $date_arr[2].".".$date_arr[0].".".$date_arr[1];
+            $data["date"] = $date_arr[2]."-".$date_arr[0]."-".$date_arr[1];
         $data["professors"] = $this->model->get_professors();
         $data["groups"] = $this->model->get_groups();
 
@@ -45,6 +49,20 @@ class Controller_Admin extends Controller
             $this->model->delete_event($c_id);
         else
             Route::ErrorPage404();
+    }
+    function action_update_event($id) {
+        if(!$this->model->get_rights())
+            Route::ErrorPage404();
+        $int_id =(int) $id[0];
+        $data["login"] = $this->model->get_login();
+        $data["event"] = $this->model->get_event($int_id);
+        $data["professors"] = $this->model->get_professors();
+        $data["groups"] = $this->model->get_groups();
+        if(isset($_POST['submit'])) {
+            if($this->model->update_event($this->create_event($data),$int_id))
+                header("Location: /calendar");
+        }
+        $this->view->generate('update_event_view.php', 'template_view.php',$data);
     }
     function action_get_rights() {
         echo $this->model->get_rights();

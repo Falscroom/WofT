@@ -160,7 +160,7 @@
 							{
 								content = '';
 								$.each(dayData, function(i,e) {
-									content += '<div class="event">' + e + '</div>';
+									content += e;
 								})
 							}
 						}
