@@ -9,8 +9,9 @@ class Authorization extends Model {
         }
     }
     public function delete_session() {
+        $user_id = (int) $_COOKIE['user_id'];
         $this->prepare("DELETE FROM sessions WHERE user_id=:id");
-        $this->query->bindParam(':id',intval($_COOKIE['user_id']));
+        $this->query->bindParam(':id',$user_id,PDO::PARAM_INT);
         $this->execute_simple();
         Authorization::delete_cookie();
     }
@@ -29,10 +30,11 @@ class Authorization extends Model {
     public function approve_session($login = NULL) {
         if (isset($_COOKIE['user_id']) and isset($_COOKIE['hash']))
         {
+            $user_id = (int) $_COOKIE['user_id'];
             $this->prepare("SELECT sessions.*,users.login,users.rights FROM sessions,users
 WHERE user_id = :id AND s_hash=:hash  AND users.id = sessions.user_id LIMIT 1");
-            $this->query->bindParam(':id',intval($_COOKIE['user_id']));
-            $this->query->bindParam(':hash',$_COOKIE['hash']);
+            $this->query->bindParam(':id',$user_id,PDO::PARAM_INT);
+            $this->query->bindParam(':hash',$_COOKIE['hash'],PDO::PARAM_STR);
             $user_data = $this->execute_row();
             if(($user_data['s_hash'] !== $_COOKIE['hash']) or ($user_data['user_id'] !== $_COOKIE['user_id'])
                 or ($user_data['s_time'] < time()) or ($login !== NULL && $login !== $user_data["login"]))
