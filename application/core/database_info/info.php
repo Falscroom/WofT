@@ -1,4 +1,4 @@
-<?php
+ <?php
 define("HOST","mysql.hostinger.ru");
 define("LOGIN","u513210783_user");
 define("PASS","123456");
