@@ -7,15 +7,17 @@
         <p><div class="col-md-6">Фамилия Имя Отчество</div><div class="col-md-6"><?php echo $data["user"]["user_info"] ?></div> </p>
         <p><div class="col-md-6">Контакты</div><div class="col-md-6"><?php echo $data["user"]["contacts"] ?></div> </p>
         <p><div class="col-md-6">Статус</div><div class="col-md-6"><?php
-            if($data["user"]["if_stuff"])
-                echo "Преподаватель";
-            else
-                echo "Пользователь";
-            if(!$data["user"]["rights"])
-                echo " (ваш статус неподтвержден!)";
-            ?></div> </p>
+            switch($data["user"]["if_stuff"]) {
+                case true: echo("Преподаватель"); if(!($data["user"]["rights"] & U_EDIT)) { echo(" (неподтверждено!)");
+                           if($data["rights"] == U_PROFESSOR)
+                                echo ("<p><a href='/admin/upgrade_rights/{$data["user"]["id"]}'>Подтвердить</a></p>"); }
+                    break;
+                case false: echo("Пользователь");
+                    break;
+            }
+            ?></div></p>
         <?php
-        if($data["rights"])
+        if($data["rights"] == U_PROFESSOR && $data["user"]["login"] == $data["login"])
             echo " <p><div class='col-md-6'><a href='/admin'>Перейти к администрированию</a></div></p>";
         ?>
         <p><div><a href="/main/logout">Выйти из профиля</a></div></p>

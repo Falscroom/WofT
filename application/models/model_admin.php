@@ -43,5 +43,13 @@ FROM events,users,groups WHERE events.id=:id AND events.ev_group = groups.id AND
         $this->query->bindParam(":id",$id,PDO::PARAM_INT);
         return $this->execute_simple();
     }
+    function upgrade_rights($id) {
+        $rights = U_PROFESSOR;
+        $this->prepare("UPDATE `users` SET `rights`=:rights WHERE `id`=:id");
+        $this->query->bindParam(":rights",$rights,PDO::PARAM_INT);
+        $this->query->bindParam(":id",$id,PDO::PARAM_INT);
+        return $this->execute_simple();
+
+    }
 
 }

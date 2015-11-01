@@ -37,10 +37,13 @@
     #link:hover {
         text-decoration: none;
     }
-    .event > .ev_professor,.event > .ev_group {
+    .event > .ev_professor,.event > .ev_group,#group,#professor {
         padding: 0;
         text-align: left;
         font-size: 16px;
+    }
+    #group,#professor {
+        display: inline;
     }
 </style>
 <div class="container">
@@ -65,6 +68,9 @@
 <script type="text/javascript" src="js/jquery.calendario.js"></script>
 
 <script type="text/javascript">
+    /// RIGHTS
+    const U_EDIT = 1 << 1;
+    /// RIGHTS
         $.ajax({
                 url: "/calendar/date",
                 success: function(codropsEvents){
@@ -86,7 +92,7 @@
                                                     if( $contentEl.length > 0 ) {
                                                             showEvents( $contentEl, dateProperties );
                                                     }
-                                                    else if(rights) {
+                                                    else if(rights & U_EDIT) {
                                                         date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
                                                         window.location.replace("/admin/create_event/" + date);
                                                     }
@@ -129,7 +135,7 @@
                                     $.ajax({
                                         url: "/admin/get_rights",
                                         success: function(rights){
-                                            if(rights) {
+                                            if(rights & U_EDIT) {
                                                 delete_button = $("<div class='col-md-2 event_button'><a id='link' >Удалить</a></div>");
                                                 delete_button.bind("click",function() {
                                                     $.ajax({

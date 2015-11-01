@@ -10,8 +10,8 @@ Class Model_Calendar extends Authorization {
             $date_event = (new DateTime($element_event["ev_date"]))->format('m-d-Y');
             $event_text =
             "<span class='event' data-id='{$element_event["id"]}'>
-                <span class='ev_group'>Группа: {$element_event["group_name"]}</span>
-                <span class='ev_professor'>Профессор: {$element_event["user_info"]}</span>
+                <span class='ev_group'>Группа: <span id='group'>{$element_event["group_name"]}</span></span>
+                <span class='ev_professor'>Профессор: <span id='professor'>{$element_event["user_info"]}</span></span>
                 <span class='ev_text'>{$element_event["ev_text"]}</span>
             </span>";
 

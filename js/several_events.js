@@ -1,18 +1,18 @@
 all_events = $("div.custom-content-reveal > span.event").clone();
 function show_hide() {
-    current = $(this).text() - 1;
+    current = $(this).children(":selected").data()["relation"];
     all_events.each(function(i,e) {
         if(i == current) {
-            $("div.custom-content-reveal > span.event").remove();
+            $(".custom-content-reveal > .event").remove();
             $("div.custom-content-reveal").append(e);
         }
     });
 }
 if(all_events.length > 1) {
-    $(".ca_container").append("<div class='col-md-2 select_container'><select class='form-control select'></select></div>");
+    $(".ca_container").append("<div class='col-md-6 select_container'><select class='form-control select'></select></div>");
     all_events.each(function(i) {
-        $(".select").append("<option class='option'>"+(i + 1)+"</option>");
+        $(".select").append("<option class='option' data-relation='"+i+"'>"+$(this).find("#group").text()+" | "+$(this).find("#professor").text()+"</option>");
     });
-    $(".option").bind("click", show_hide);
+    $(".select").change(show_hide);
     $("div.custom-content-reveal > span.event:not(:first)").remove();
 }

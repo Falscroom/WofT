@@ -21,7 +21,8 @@ class Controller_Admin extends Controller
     function action_index()
     {
         $data["login"] = $this->model->get_login();
-        if($this->model->get_rights())
+
+        if($this->model->get_rights() & U_EDIT)
             $this->view->generate('admin_view.php', 'template_view.php',$data);
         else
             Route::ErrorPage404();
@@ -38,34 +39,42 @@ class Controller_Admin extends Controller
             $this->model->create_event($this->create_event($data));
         }
 
-        if($this->model->get_rights())
+        if($this->model->get_rights() & U_EDIT)
             $this->view->generate('create_event_view.php', 'template_view.php',$data);
         else
             Route::ErrorPage404();
     }
     function action_delete_event($id) {
-        $c_id = (int) $id[0];
-        if($this->model->get_rights())
-            $this->model->delete_event($c_id);
+        if($this->model->get_rights() & U_EDIT)
+            $this->model->delete_event((int) $id[0]);
         else
             Route::ErrorPage404();
     }
     function action_update_event($id) {
-        if(!$this->model->get_rights())
-            Route::ErrorPage404();
-        $int_id =(int) $id[0];
-        $data["login"] = $this->model->get_login();
-        $data["event"] = $this->model->get_event($int_id);
-        $data["professors"] = $this->model->get_professors();
-        $data["groups"] = $this->model->get_groups();
-        if(isset($_POST['submit'])) {
-            if($this->model->update_event($this->create_event($data),$int_id)) {
-                header("Location: /calendar");
+        if($this->model->get_rights() & U_EDIT) {
+            $int_id = (int)$id[0];
+            $data["login"] = $this->model->get_login();
+            $data["event"] = $this->model->get_event($int_id);
+            $data["professors"] = $this->model->get_professors();
+            $data["groups"] = $this->model->get_groups();
+            if (isset($_POST['submit'])) {
+                if ($this->model->update_event($this->create_event($data), $int_id)) {
+                    header("Location: /calendar");
+                }
             }
+            $this->view->generate('update_event_view.php', 'template_view.php', $data);
         }
-        $this->view->generate('update_event_view.php', 'template_view.php',$data);
+    else
+            Route::ErrorPage404();
     }
     function action_get_rights() {
         echo $this->model->get_rights();
+    }
+    function action_upgrade_rights($id) {
+        if($this->model->get_rights() & U_EDIT)
+            if($this->model->upgrade_rights((int) $id[0]))
+                header("Location: {$_SERVER["HTTP_REFERER"]}");
+        else
+            Route::ErrorPage404();
     }
 }
