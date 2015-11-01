@@ -2,7 +2,45 @@
     .ca_container {
         margin-top: -29px;
         height: 25px;
-/*        background-color: red;*/
+        /*background-color: red;*/
+    }
+    .select_container {
+        margin-right: 2px;
+        padding: 0;
+    }
+    .event_button {
+        cursor: pointer;
+        background-color: white;
+        height: 25px;
+        text-align: center;
+        border: 1px solid;
+        margin-right: 2px;
+    }
+    .event_button:hover {
+        overflow: hidden;
+        border-color: dodgerblue;
+    }
+    .select {
+        padding: 0;
+        height: 25px;
+        font-size: 14px;
+        border-radius: 0;
+    }
+    .select:focus {
+        box-shadow: none;
+    }
+    #link {
+        color: black;
+        padding: 0;
+        font-size: 14px;
+    }
+    #link:hover {
+        text-decoration: none;
+    }
+    .event > .ev_professor,.event > .ev_group {
+        padding: 0;
+        text-align: left;
+        font-size: 16px;
     }
 </style>
 <div class="container">
@@ -30,6 +68,7 @@
         $.ajax({
                 url: "/calendar/date",
                 success: function(codropsEvents){
+                    console.log(codropsEvents);
                         $(function() {
                                 var transEndEventNames = {
                                             'WebkitTransition' : 'webkitTransitionEnd',
@@ -42,17 +81,15 @@
                                     $wrapper = $( '#custom-inner' ),
                                     $calendar = $( '#calendar' ),
                                     cal = $calendar.calendario( {
-                                            onDayClick : function( $el, $contentEl, dateProperties ) {
+                                            onDayClick : function( $el, $contentEl, dateProperties, rights ) {
 
                                                     if( $contentEl.length > 0 ) {
                                                             showEvents( $contentEl, dateProperties );
                                                     }
-                                                    <?php if($data["rights"]): ?>
-                                                    else {
+                                                    else if(rights) {
                                                         date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
                                                         window.location.replace("/admin/create_event/" + date);
                                                     }
-                                                    <?php endif; ?>
 
 
                                             },
@@ -75,7 +112,6 @@
                                 }
 
                                 function showEvents( $contentEl, dateProperties ) {
-
                                         hideEvents();
 
                                         var $events = $( '<div id="custom-content-reveal" class="custom-content-reveal"><h4>Событие на ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4>' +
@@ -90,6 +126,26 @@
 
                                     $.getScript("js/several_events.js");
 
+                                    $.ajax({
+                                        url: "/admin/get_rights",
+                                        success: function(rights){
+                                            if(rights) {
+                                                delete_button = $("<div class='col-md-2 event_button'><a id='link' >Удалить</a></div>");
+                                                delete_button.bind("click",function() {
+                                                    $.ajax({
+                                                        url: "/admin/delete_event/" + $(".custom-content-reveal").find("span.event").data()['id'],
+                                                        success: function() {
+                                                            window.location.replace("/calendar");
+                                                        }
+                                                    });
+                                                });
+                                                update_button = $("<div class='col-md-3 event_button'><a id='link' >Редактировать</a></div>");
+                                                update_button.bind("click",function() {
+                                                    window.location.replace("/admin/update_event/" + $(".custom-content-reveal").find("span.event").data()['id']);
+                                                });
+                                                $(".ca_container").append(delete_button,update_button);
+                                            }
+                                        }});
                                 }
                                 function hideEvents() {
 
@@ -98,7 +154,9 @@
                                         if( $events.length > 0 ) {
 
                                                 $events.css( 'top', '100%' );
-                                                Modernizr.csstransitions ? $events.on( transEndEventName, function() { $( this ).remove(); } ) : $events.remove();
+                                            $events.animate({'height':0},500,function() {
+                                                $events.remove();
+                                            });
 
                                         }
 
