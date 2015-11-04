@@ -13,6 +13,14 @@ Class Model_Admin extends Authorization {
     function get_id($array,$find_str,$column_name) {
         return (int) $array[ array_search($find_str,array_column($array, $column_name) ) ]["id"];
     }
+    function get_date($date) {
+        if(!empty($date)) {
+            $date_arr = explode("-", $date[0]);
+            if (strlen($date[0]) >= 8 && substr_count($date[0], "-") == 2) // TODO  написать нормальную проверку даты
+                return $date_arr[2] . "-" . $date_arr[0] . "-" . $date_arr[1];
+        }
+        return false;
+    }
     function delete_event($id) {
         $this->prepare("DELETE FROM events WHERE id=:id");
         $this->query->bindParam(":id",$id,PDO::PARAM_INT);
@@ -50,6 +58,16 @@ FROM events,users,groups WHERE events.id=:id AND events.ev_group = groups.id AND
         $this->query->bindParam(":id",$id,PDO::PARAM_INT);
         return $this->execute_simple();
 
+    }
+    function add_group($group_name) {
+        $this->prepare("INSERT INTO groups(group_name) VALUES (:group_name)");
+        $this->query->bindParam(":group_name",$group_name,PDO::PARAM_STR);
+        return $this->execute_simple();
+    }
+    function delete_group($group_name) {
+        $this->prepare("DELETE FROM groups WHERE group_name=:group_name");
+        $this->query->bindParam(":group_name",$group_name,PDO::PARAM_STR);
+        return $this->execute_simple();
     }
 
 }

@@ -15,16 +15,18 @@
         text-align: center;
         border: 1px solid;
         margin-right: 2px;
+        border-radius: 4px;
     }
     .event_button:hover {
         overflow: hidden;
         border-color: dodgerblue;
     }
     .select {
+        border: 1px solid;
         padding: 0;
         height: 25px;
         font-size: 14px;
-        border-radius: 0;
+        border-radius: 4px;
     }
     .select:focus {
         box-shadow: none;
@@ -87,17 +89,17 @@
                                     $wrapper = $( '#custom-inner' ),
                                     $calendar = $( '#calendar' ),
                                     cal = $calendar.calendario( {
-                                            onDayClick : function( $el, $contentEl, dateProperties, rights ) {
-
-                                                    if( $contentEl.length > 0 ) {
-                                                            showEvents( $contentEl, dateProperties );
+                                            onDayClick : function( $el, $contentEl, dateProperties, rights, event ) {
+                                                    if(event.button == 1) {
+                                                        if (rights & U_EDIT) {
+                                                            date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
+                                                            window.location.replace("/admin/create_event/" + date);
+                                                        }
                                                     }
-                                                    else if(rights & U_EDIT) {
-                                                        date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
-                                                        window.location.replace("/admin/create_event/" + date);
-                                                    }
-
-
+                                                    else
+                                                        if( $contentEl.length > 0 ) {
+                                                                showEvents( $contentEl, dateProperties );
+                                                        }
                                             },
                                             caldata : codropsEvents,
                                             displayWeekAbbr : true
