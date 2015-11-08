@@ -7,7 +7,7 @@ class Controller_Registration extends Controller
     }
     function create_user() {
         $if_stuff = $_POST["if_stuff"] == "Да";
-        $group = NULL;
+        $group = null;
         if($_POST["group"] != "Не знаю / Я преподаватель" && !$if_stuff)
             $group = $_POST["group"];
 

@@ -20,7 +20,7 @@
                <li><a href="/calendar">Календарь</a></li>
                <li><a href="/book">Журнал</a></li>
                <li><a href="/feedback">Обратная связь</a></li>
-               <?php if (isset($data['login'])): ?>
+               <?php if ($data['login']):?>
                    <li class="navbar-right" data-toggle="modal" data-target="#myModal"><a href="/profile/<?php echo $_COOKIE['login'] ?>" ><?  echo $_COOKIE['login']; ?></a></li>
                <?php else: ?>
                    <li class="navbar-right"><a href="/login" data-toggle="modal" data-target="#myModal">Вход</a></li>

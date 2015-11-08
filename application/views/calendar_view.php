@@ -15,16 +15,18 @@
         text-align: center;
         border: 1px solid;
         margin-right: 2px;
+        border-radius: 4px;
     }
     .event_button:hover {
         overflow: hidden;
         border-color: dodgerblue;
     }
     .select {
+        border: 1px solid;
         padding: 0;
         height: 25px;
         font-size: 14px;
-        border-radius: 0;
+        border-radius: 4px;
     }
     .select:focus {
         box-shadow: none;
@@ -37,10 +39,13 @@
     #link:hover {
         text-decoration: none;
     }
-    .event > .ev_professor,.event > .ev_group {
+    .event > .ev_professor,.event > .ev_group,#group,#professor {
         padding: 0;
         text-align: left;
         font-size: 16px;
+    }
+    #group,#professor {
+        display: inline;
     }
 </style>
 <div class="container">
@@ -65,6 +70,9 @@
 <script type="text/javascript" src="js/jquery.calendario.js"></script>
 
 <script type="text/javascript">
+    /// RIGHTS
+    const U_EDIT = 1 << 1;
+    /// RIGHTS
         $.ajax({
                 url: "/calendar/date",
                 success: function(codropsEvents){
@@ -81,17 +89,17 @@
                                     $wrapper = $( '#custom-inner' ),
                                     $calendar = $( '#calendar' ),
                                     cal = $calendar.calendario( {
-                                            onDayClick : function( $el, $contentEl, dateProperties, rights ) {
-
-                                                    if( $contentEl.length > 0 ) {
-                                                            showEvents( $contentEl, dateProperties );
+                                            onDayClick : function( $el, $contentEl, dateProperties, rights, event ) {
+                                                    if(event.button == 1) {
+                                                        if (rights & U_EDIT) {
+                                                            date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
+                                                            window.location.replace("/admin/create_event/" + date);
+                                                        }
                                                     }
-                                                    else if(rights) {
-                                                        date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
-                                                        window.location.replace("/admin/create_event/" + date);
-                                                    }
-
-
+                                                    else
+                                                        if( $contentEl.length > 0 ) {
+                                                                showEvents( $contentEl, dateProperties );
+                                                        }
                                             },
                                             caldata : codropsEvents,
                                             displayWeekAbbr : true
@@ -129,7 +137,7 @@
                                     $.ajax({
                                         url: "/admin/get_rights",
                                         success: function(rights){
-                                            if(rights) {
+                                            if(rights & U_EDIT) {
                                                 delete_button = $("<div class='col-md-2 event_button'><a id='link' >Удалить</a></div>");
                                                 delete_button.bind("click",function() {
                                                     $.ajax({

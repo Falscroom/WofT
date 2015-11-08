@@ -9,6 +9,7 @@
         box-shadow: none;
     }
     #event_text {
+        border-radius: 4px;
         border: 1px solid;
     }
     #event_text:focus {
@@ -26,8 +27,8 @@
                  <label for="professor">Выберите профессора</label>
                  <select class="form-control" name="professor" id="professor">
                      <?php
-                     foreach($data["professors"] as $group) {
-                         echo "<option>" . $group["user_info"] . "</option>";
+                     foreach($data["professors"] as $professor) {
+                         echo "<option>" . $professor["user_info"] . "</option>";
                      }
                      ?>
                  </select>
@@ -39,8 +40,8 @@
                   <label for="group">Группа</label>
                   <select class="form-control" name="group" id="group">
                       <?php
-                      foreach($data["groups"] as $group) {
-                          echo "<option>" . $group["group_name"] . "</option>";
+                      foreach($data["groups"] as $professor) {
+                          echo "<option>" . $professor["group_name"] . "</option>";
                       }
                       ?>
                   </select>

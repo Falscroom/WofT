@@ -1,6 +1,5 @@
 <?php
-define('U_PROFESSOR', 1 << 0);   // 0001
-define('U_CREATE', 1 << 1); // 0010
-define('U_EDIT', 1 << 2);   // 0100
-define('U_DELETE', 1 << 3); // 1000
-define('U_ALL', U_PROFESSOR | U_CREATE | U_EDIT | U_DELETE); // 1111
+define('U_VIEW', 1 << 0);   // 0001
+define('U_EDIT', 1 << 1); // 0010 EDIT
+define('U_PROFESSOR', U_VIEW | U_EDIT);
+define('U_USER', U_VIEW);

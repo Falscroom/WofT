@@ -46,11 +46,7 @@
             </div>
 
 
-            <input name="submit" type="submit" class="btn btn-default" value="Авторизация">
+            <input name="submit" type="submit" class="btn btn-default" value="Регистрация">
         </form>
     </div>
 </div>
-<br>
-<br>
-<br>
-<br>

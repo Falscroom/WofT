@@ -47,16 +47,18 @@ class Model_Authorization extends Authorization
     }
     public function add_user($user) {
         if($this->unique_login($user->login) && $this->check_login($user->login) && ($this->check_pass($user->password,$user->confirm_password))) {
+            $user_rights = U_USER;
             $group = $this->get_group_id($user->user_group);
             $user->password = md5(md5(trim($user->password)));
             $this->prepare("INSERT INTO users(id,login,user_password,user_info,group_id,contacts,rights,if_stuff)
-VALUES (NULL,:login,:user_password,:user_info,:group_id,:contacts,0000,:if_stuff)");
+VALUES (NULL,:login,:user_password,:user_info,:group_id,:contacts,:rights,:if_stuff)");
             $this->query->bindParam(':login',$user->login,PDO::PARAM_STR);
             $this->query->bindParam(':user_password',$user->password,PDO::PARAM_STR);
             $this->query->bindParam(':user_info',$user->user_info,PDO::PARAM_STR);
             $this->query->bindParam(':group_id',$group,PDO::PARAM_INT);
             $this->query->bindParam(':contacts',$user->contacts,PDO::PARAM_STR);
             $this->query->bindParam(':if_stuff',$user->if_stuff,PDO::PARAM_BOOL);
+            $this->query->bindParam(':rights',$user_rights,PDO::PARAM_INT);
             $this->execute_simple();
             return true;
         }

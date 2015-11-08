@@ -55,7 +55,7 @@
 
 			var self = this;
 
-			this.$el.on( 'click.calendario', 'div.fc-row > div', function() {
+			this.$el.on( 'mousedown', 'div.fc-row > div', function(event) {
 
 				var $cell = $( this ),
 					idx = $cell.index(),
@@ -73,7 +73,7 @@
 					$.ajax({
 						url: "/admin/get_rights",
 						success: function(rights){
-							self.options.onDayClick( $cell, $content, dateProp, rights );
+							self.options.onDayClick( $cell, $content, dateProp, rights, event );
 						}});
 				}
 
