@@ -90,7 +90,7 @@
                                     $calendar = $( '#calendar' ),
                                     cal = $calendar.calendario( {
                                             onDayClick : function( $el, $contentEl, dateProperties, rights, event ) {
-                                                    if(event.button == 1) {
+                                                    if(event.button == 2) {
                                                         if (rights & U_EDIT) {
                                                             date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
                                                             window.location.replace("/admin/create_event/" + date);

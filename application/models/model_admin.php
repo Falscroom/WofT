@@ -69,5 +69,9 @@ FROM events,users,groups WHERE events.id=:id AND events.ev_group = groups.id AND
         $this->query->bindParam(":group_name",$group_name,PDO::PARAM_STR);
         return $this->execute_simple();
     }
-
+    function get_professors_list(){
+        $this->prepare("SELECT user_info,login FROM users WHERE rights < :u_edit AND if_stuff = '1'");
+        $this->query->bindValue(":u_edit",U_EDIT,PDO::PARAM_INT);
+        return $this->execute_all();
+    }
 }

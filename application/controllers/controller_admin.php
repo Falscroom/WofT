@@ -98,4 +98,13 @@ class Controller_Admin extends Controller
         else
             Route::ErrorPage404();
     }
+    function action_list_professors() {
+        if($this->model->get_rights() & U_EDIT) {
+            $data["login"] = $this->model->get_login();
+            $data["list"] = $this->model->get_professors_list();
+            $this->view->generate('professors_list_view.php', 'template_view.php', $data);
+        }
+        else
+            Route::ErrorPage404();
+    }
 }

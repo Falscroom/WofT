@@ -40,8 +40,8 @@
                   <label for="group">Группа</label>
                   <select class="form-control" name="group" id="group">
                       <?php
-                      foreach($data["groups"] as $professor) {
-                          echo "<option>" . $professor["group_name"] . "</option>";
+                      foreach($data["groups"] as $group) {
+                          echo "<option>" . $group["group_name"] . "</option>";
                       }
                       ?>
                   </select>
