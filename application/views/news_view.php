@@ -1,35 +1,14 @@
-	<!-- Основной контент сайта -->
-         <h3>Новости</h3>
-         <div class="row">
-               <div class="caption">
-                 <h3>Thumbnail label</h3>
-                 <p>Subheading
-
-Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
-
-Subheading
-
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
-
-Subheading
-
-Maecenas sed diam eget risus varius blandit sit amet non magna.
-
-Subheading
-
-Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
-
-Subheading
-
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
-
-Subheading
-
-Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-                 <p><a href="#">Читать далее</a></p>
-               
-         </div>
-         </div>
-
-
-        
+<div class="row">
+	<div>
+		<p align="right"><input name="button" type="button" class="btn btn-primary" value="Создать новость" onclick="(function() {window.location.replace('/news/addnews')})()"></p>
+	</div>	
+	<?php foreach ($data as $value) { ?>
+	 	<div class="thumbnail">
+      		<div class="caption">
+        	<h3><?php print $value["caption"]; ?></h3>
+        	<p><?php print $value["ntext"]; ?></p>
+        	<?php if ($data["login"] == false /*true*/) { print '<p align="right"><a href="#" class="btn btn-default" role="button">Редактировать</a> <a href="#" class="btn btn-default" role="button">Удалить</a></p>'; } ?>
+      		</div>
+    	</div>
+    	<?php } ?>
+</div>
