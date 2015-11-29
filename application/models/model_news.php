@@ -8,6 +8,23 @@ Class Model_News extends Authorization {
 		$this->prepare("INSERT INTO news(id, caption, ntext) VALUES (NULL, :caption, :ntext)");
 		$this->query->bindParam(":caption",$news->caption,PDO::PARAM_STR);
 		$this->query->bindParam(":ntext",$news->ntext,PDO::PARAM_STR);
-		$this->execute_simple();
+		return $this->execute_simple();
+	}
+	public function viewnews($newsid) {
+		$this->prepare("SELECT * FROM news WHERE id=:id");
+		$this->query->bindParam(":id",$newsid,PDO::PARAM_INT);
+		return $this->execute_all();
+	}
+	public function deletenews($newsid) {
+		$this->prepare("DELETE FROM news WHERE id=:id");
+		$this->query->bindParam(":id",$newsid,PDO::PARAM_INT);
+		return $this->execute_simple();
+	}
+	public function editnews($news) {
+		$this->prepare("UPDATE news SET caption=:caption, ntext=:ntext WHERE id=:id");
+		$this->query->bindParam(":caption",$news->caption,PDO::PARAM_STR);
+		$this->query->bindParam(":ntext",$news->ntext,PDO::PARAM_STR);
+		$this->query->bindParam(":id",$news->id,PDO::PARAM_INT);
+		return $this->execute_simple();
 	}
 }
