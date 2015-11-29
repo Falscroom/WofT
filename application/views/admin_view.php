@@ -33,9 +33,8 @@
         <div class="col-md-2 button" onclick="(function(e){ window.location.replace('/admin/delete_group'); })(event)">Удалить</div>
     </div>
 
-<!--    <label for="#event">Редактирование событий</label>
+    <label for="#event">Списки</label>
     <div class="row" id="event">
-        <div class="col-md-2 button"><a href="/admin/create_event">Создать</a></div>
-        <div class="col-md-2 button"><a href="/admin/delete_event">Удалить</a></div>
-    </div>-->
+        <div class="col-md-5 button"><a href="/admin/list_professors">Преподаватели без подтверждения</a></div>
+    </div>
 </div>
