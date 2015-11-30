@@ -1,6 +1,6 @@
 <form role="form" method="POST">
   <div class="row">	
-  	<?php foreach ($data as $value) { ?>
+  	<?php foreach ($data["news"] as $value) { ?>
   	 	<div class="thumbnail">
         		<div class="caption">
             <h3>Заголовок новости:</h3>

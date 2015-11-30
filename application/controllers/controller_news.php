@@ -13,18 +13,23 @@ class Controller_News extends Controller
     	];
     }
     function action_index() {
-        $data = $this->model->get_news();
+        $data["news"] = $this->model->get_news();
+        $data["rights"] = $this->model->get_rights();
+        $data["login"] = $this->model->get_login();
         $this->view->generate('news_view.php', 'template_view.php',$data);
     }
     function action_addnews() {
+    	$data["login"] = $this->model->get_login();
     	if (isset($_POST['submit'])) {
     		$this->model->addnews($this->addnews($news));
     		header("Location: /news");
     	}
-    	$this->view->generate('create_news_view.php', 'template_view.php');
+    	$this->view->generate('create_news_view.php', 'template_view.php', $data);
     }
     function action_viewnews($id) {
-    	$data = $this->model->viewnews($id['0']);
+    	$data["news"] = $this->model->viewnews($id['0']);
+    	$data["rights"] = $this->model->get_rights();
+    	$data["login"] = $this->model->get_login();
     	$this->view->generate('viewnews_view.php', 'template_view.php', $data);
     }
     function action_deletenews($id) {
@@ -33,7 +38,8 @@ class Controller_News extends Controller
     	};
     }
     function action_editnews($id) {
-    	$data = $this->model->viewnews($id['0']);
+    	$data["news"] = $this->model->viewnews($id['0']);
+    	$data["login"] = $this->model->get_login();
     	if (isset($_POST['submit'])) {
     		$this->model->editnews($this->addnews($id['0'], $news));
     		header("Location: /news");

@@ -3,7 +3,7 @@
   VK.init({apiId: 5102220, onlyWidgets: true});
 </script>
 <div class="row">	
-  <?php foreach ($data as $value) { ?>
+  <?php foreach ($data["news"] as $value) { ?>
   <div class="thumbnail">
     <div class="caption">
       <div style="margin: 0px 0px 0px 0px">
@@ -14,7 +14,7 @@
         <p><?php print $value["ntext"]; ?></p>
       </div>
       <p align="right"><input name="button" type="button" class="btn btn-default" value="Назад" onclick="(function() {window.location.replace('/news')})()">
-      <?php if ($data["login"] == false /*true*/) {
+      <?php if ($data["rights"] & U_EDIT) {
         print '<a href="/news/editnews/'.$value['id'].'" class="btn btn-default" role="button">Редактировать</a> <a href="/news/deletenews/'.$value['id'].'" class="btn btn-default" role="button">Удалить</a>';
       } ?>
       </p>
