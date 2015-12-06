@@ -7,7 +7,7 @@
   <div class="thumbnail">
     <div class="caption">
       <div style="margin: 0px 0px 0px 0px">
-        <a href="http://goo.gl/ZN7gIH"><img src="http://goo.gl/ZN7gIH" alt="..." class="img-rounded" width="100%"></a>
+        <a href="/images/<?php print $value['image']; ?>"><img src="/images/<?php print $value['image']; ?>" class="img-rounded" width="100%"></a>
       </div>
       <div style="display: table-cell">
         <h3><?php print $value["caption"]; ?></h3>
