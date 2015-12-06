@@ -7,10 +7,16 @@ class Controller_Profile extends Controller
     }
     function action_index($login)
     {
-        $data["login"] = $this->model->get_login();
-        if($login)
-            $data["user"] = $this->model->get_user($login[0]);
-        $data["rights"] = $this->model->get_rights();
-        $this->view->generate('profile_view.php', 'template_view.php',$data); //TODO js == true AND bool in MYSQL
+        if($login) {
+            $data["login"] = $this->model->get_login();
+            $data["user"] = $this->model->get_current_user($login[0]);
+            $data["rights"] = $this->model->get_rights();
+            $data["owner"] = $data["user"]["login"] == $data["login"];
+            $this->view->generate('profile_view.php', 'template_view.php', $data); //TODO js == true AND bool in MYSQL
+        }
+    }
+    function action_change_pass($login) {
+        if($this->model->get_user() && isset($_POST["password"]))
+            echo $this->model->change_pass($_POST["password"]);
     }
 }
