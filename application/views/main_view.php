@@ -7,6 +7,7 @@
         <h3><?php print $value["caption"]; ?></h3>
         <p><?php print $value["ntext"]; ?></p>
       </div>
+      <p align="right"><a href='/news/viewnews/<?php print $value["id"]?>'>Перейти к новости</a></p>
     </div>
   </div>
   <?php } ?>
