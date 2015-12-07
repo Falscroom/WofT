@@ -7,6 +7,7 @@ class Controller_Main extends Controller
     }
     function action_index()
     {
+        $data["news"] = $this->model->get_news();
         $data["login"] = $this->model->get_login();
         $this->view->generate('main_view.php', 'template_view.php',$data);
     }
