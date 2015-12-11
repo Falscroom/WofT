@@ -2,11 +2,11 @@
     <h2>Регистрация</h2><br>
     <div class="row">
         <form role="form" method="POST"   >
-            <div class="form-group">
+            <div class="form-group <?php if(isset($data["errors"])) echo $data["errors"]["login"];?>"">
                 <label for="login">Логин</label>
                 <input type="text" class="form-control" id="login" name="login" placeholder="Введите ваш логин" required>
             </div>
-            <div class="form-group">
+            <div class="form-group <?php if(isset($data["errors"])) echo $data["errors"]["pass"];?>">
                 <label for="password">Пароль</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Введите ваш пароль" required>
             </div>
@@ -26,7 +26,6 @@
             <div class="form-group">
                 <label for="group">Выберите группу (если знаете)</label>
                 <select class="form-control" name="group" id="group">
-                    <option>Не знаю / Я преподаватель</option>
                     <?php
                     foreach($data["options"] as $group) {
                         echo "<option>" . $group["group_name"] . "</option>";
@@ -35,12 +34,12 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if(isset($data["errors"])) echo $data["errors"]["info"];?>">
                 <label for="user_info">ФИО</label>
                 <input type="text" class="form-control" id="user_info" name="user_info" placeholder="Ваше фамилия имя и отчество" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if(isset($data["errors"])) echo $data["errors"]["contacts"];?>">
                 <label for="contacts">Контактная информация</label>
                 <input type="text" class="form-control" id="contacts" name="contacts" placeholder="Как мы можем найти вас?" required>
             </div>

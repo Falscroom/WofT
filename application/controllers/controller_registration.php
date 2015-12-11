@@ -7,10 +7,9 @@ class Controller_Registration extends Controller
     }
     function create_user() {
         $if_stuff = $_POST["if_stuff"] == "Да";
-        $group = null;
-        if($_POST["group"] != "Не знаю / Я преподаватель" && !$if_stuff)
-            $group = $_POST["group"];
-
+        $group = $_POST["group"];
+        if($if_stuff)
+            $group = null;
         return (object) [
             "login" => $_POST["login"],
             "password" => $_POST["password"],
@@ -23,11 +22,23 @@ class Controller_Registration extends Controller
     }
     function action_index()
     {
-        if(isset($_POST['submit']))
-            if($this->model->add_user($this->create_user()))
-                header("Location: /login");
+
+        $validator = new validator();
         $data["login"] = $this->model->get_login();
         $data["options"] = $this->model->get_options();
+
+        if(isset($_POST['submit'])) {
+            $user = $this->create_user();
+
+            $data["errors"]["login"] = $validator->is_correct_login($user->login) ? "" : "has-error";
+            $data["errors"]["pass"] = $validator->is_correct_pass($user->password) ? "" : "has-error";
+            $data["errors"]["contacts"] = $validator->is_correct_contacts($user->contacts) ? "" : "has-error";
+            $data["errors"]["info"] = $validator->is_correct_info($user->user_info) ? "" : "has-error";
+
+            if($validator->result)
+                if ($this->model->add_user($user))
+                    header("Location: /login");
+        }
         $this->view->generate('registration_view.php', 'template_view.php',$data);
     }
 }

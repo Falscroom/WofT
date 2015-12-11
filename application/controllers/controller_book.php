@@ -178,7 +178,9 @@ class Controller_Book extends Controller
         else {
             $res = $this->model->getOnlyGroup($_POST['group']);
             //echo $res[$_POST["who"]]["user_info"];
-            $this->changeStudent($res[$_POST["who"]]);
+            //var_dump($res);
+            //var_dump($res[1][$_POST["who"]]);
+            $this->changeStudent($res[1][$_POST["who"]]);
         }
     }
 
