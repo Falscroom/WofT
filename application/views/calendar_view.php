@@ -47,6 +47,21 @@
     #group,#professor {
         display: inline;
     }
+    .menu {
+        position: absolute;
+        border: 1px solid grey;
+        background-color: white;
+        padding: 5px 0 5px 0;
+    }
+    .menu > span {
+        font-size: 12px;
+        cursor: context-menu;
+        padding: 0 10px 0 10px;
+        display: block;
+    }
+    .menu > span:hover {
+        background-color: #2a6496;
+    }
 </style>
 <div class="container">
         <section class="main">
@@ -65,10 +80,77 @@
                 </div>
         </section>
 </div>
-
 <script type="text/javascript" src="js/jquery.calendario.js"></script>
 
 <script type="text/javascript">
+
+
+    function Menu() {
+        this.init = function(menu_class) {
+            this.element = $("<div class='" + menu_class + " menu" + "' oncontextmenu='return false'></div>");
+        };
+        this.get = function() {
+            return this.element;
+        };
+        this.draw = function(x,y) {
+
+            this.x = x;
+            this.y = y;
+
+            this.element.css({
+                "left": x + "px",
+                "top": y + "px",
+                "display": "block"
+            });
+            $("body").append(this.element);
+        };
+        this.hide = function() {
+            this.element.css({
+                "display": "none"
+            });
+        };
+        this.count = function() {
+            return this.element.find("span").length;
+        };
+        this.width = function() {
+            return this.element.width();
+        };
+        this.span_height = function() {
+            return this.element.find("span:first").height();
+        };
+
+    }
+
+    main_menu = new Menu();
+    main_menu.init('main_menu');
+
+    child_menu = new Menu();
+    child_menu.init('child_menu');
+
+
+    $("body").bind("click",function(){
+        main_menu.hide();
+    });
+/*    function get_Menu(event) {
+        element = $('.menu');
+        if(element.length == 0) {
+            menu = $("<div class='menu' oncontextmenu='return false'></div>");
+            x = event.pageX;
+            y = event.pageY;
+            menu.css({
+                "left": x + "px",
+                "top": y + "px"
+            });
+            /!*        menu.append("<span>Delete</span>");
+             menu.append("<span>Create</span>");*!/
+            $("body").append(menu);
+            return menu;
+        }
+        else {
+            return element;
+        }
+    }*/
+
     /// RIGHTS
     const U_EDIT = 1 << 1;
     /// RIGHTS
@@ -89,11 +171,107 @@
                                     $calendar = $( '#calendar' ),
                                     cal = $calendar.calendario( {
                                             onDayClick : function( $el, $contentEl, dateProperties, rights, event ) {
-                                                    if(event.button == 2) {
-                                                        if (rights & U_EDIT) {
-                                                            date = dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
-                                                            window.location.replace("/admin/create_event/" + date);
+                                                events = $contentEl.find(".event");
+                                                if(event.button == 2) {
+                                                    if (rights & U_EDIT) {
+                                                        url = "/admin/create_event/" + dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
+                                                        if (main_menu.count() < 1)
+                                                            main_menu.element = main_menu.get().append("<span onclick='(function(){ window.location.replace(url); }())'>Добавить новое</span>");
+                                                        main_menu.draw(event.pageX, event.pageY);
+                                                        if (main_menu.count() < 2) {
+
+                                                            span = $("<span>Удалить текущее</span>").bind("mouseover", function() {
+
+                                                                child_menu.draw(main_menu.x + main_menu.width() + 1,main_menu.y + main_menu.span_height() + 6);
+
+                                                                events.each(function(item,element) {
+                                                                    span = $("<span>"+$(element).find("#group").text()+ " | " + $(element).find("#professor").text() + "</span>")
+                                                                        .bind("click", function() {
+                                                                            $.ajax({
+                                                                                url: "/admin/delete_event/" + $(element).data()["id"],
+                                                                                success: function() {
+                                                                                    window.location.replace("/calendar");
+                                                                                }
+                                                                            });
+                                                                        });
+                                                                    child_menu.element = child_menu.get().append(span);
+                                                                });
+
+
+                                                            });
+                                                            main_menu.element = main_menu.get().append(span);
                                                         }
+                                                    }
+                                                  /*  events = $contentEl.find(".event");
+                                                    if (rights & U_EDIT) {
+                                                        url = "/admin/create_event/" + dateProperties.month + "-" + dateProperties.day + "-" + dateProperties.year;
+                                                        event_create = $('<span onclick="(function() { window.location.replace(url); }())">Создать новое</span>');
+                                                        get_menu(event).append(event_create);
+                                                    }
+                                                    if(events.length > 0) {
+
+                                                        /!*event_update = $('<span>Обновить текущее</span>').bind('mouseover' , function(event){
+                                                            events = $contentEl.find(".event");
+                                                            if(events.length > 1) {
+                                                                alert(1);
+                                                            }
+                                                        });*!/
+                                                        event_delete = $('<span>Удалить текущее</span>').bind('mouseover' , function(event){
+                                                            child_menu = $("<div class='menu child_menu'><span> 1 </span></div>");
+                                                            x = get_menu(null).css("left");
+                                                            x = x.substr(0, x.length - 2);
+                                                            y = get_menu(null).css("top");
+                                                            y = y.substr(0, y.length - 2);
+                                                            alert(y);
+
+                                                            shift = $(".menu").find("span:first").height();
+                                                            alert(shift);
+
+                                                            child_menu.css({
+                                                                "top": y + "px",
+                                                                "left":x + "px"
+                                                            });
+                                                            $("body").append(child_menu);
+
+
+
+                                                            events.each(function(item,element) {
+                                                                console.log($(element).data()["id"]);
+                                                            });
+                                                  /!*          $.ajax({
+                                                                url: "/admin/delete_event/" + events.find("span.event").data()['id'],
+                                                                success: function() {
+                                                                    window.location.replace("/calendar");
+                                                                }
+                                                            });*!/
+                                                        });
+                                                        get_menu(event).append(event_delete);*/
+                                                  /*  }*/
+
+
+
+
+                                                       /* if( $contentEl.length > 0 ) {
+
+                                                            event_update = $('<span>Обновить текущее</span>').bind('mouseover' , function(event){
+                                                                events = $contentEl.find(".event");
+                                                                if(events.length > 1) {
+                                                                    alert(1);
+                                                                }
+                                                            });
+                                                            get_menu(event).append(event_update);
+
+                                                            event_delete = $('<span>Удалить текущее</span>').bind('click' , function(event){
+                                                                event.stopPropagation();
+                                                                $.ajax({
+                                                                    url: "/admin/delete_event/" + $(".custom-content-reveal").find("span.event").data()['id'],
+                                                                    success: function() {
+                                                                        window.location.replace("/calendar");
+                                                                    }
+                                                                });
+                                                            });
+                                                            get_menu(event).append(event_delete);
+                                                        }*/
                                                     }
                                                     else
                                                         if( $contentEl.length > 0 ) {
@@ -132,6 +310,12 @@
                                         }, 25 );
 
                                     $.getScript("js/several_events.js");
+
+                                    journal_button = $("<div class='col-md-3 event_button'><a id='link' >Журнал</a></div>");
+                                    journal_button.bind("click",function() {
+                                        window.location.replace("/book/fromCalendar/" + $(".custom-content-reveal").find("span.event").data()['id']);
+                                    });
+                                    $(".ca_container").append(journal_button);
 
                                     $.ajax({
                                         url: "/admin/get_rights",
