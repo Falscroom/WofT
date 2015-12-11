@@ -8,7 +8,7 @@
  	<div class="thumbnail">
   		<div class="caption">
       		<div style="margin: 0px 10px 0px 0px; float: left">
-      			<a href="http://goo.gl/BW3wHh"><img src="http://goo.gl/BW3wHh" alt="..." class="img-rounded" width="100"></a>
+      			<a href="/images/<?php print $value['image']; ?>"><img src="/images/<?php print $value['image']; ?>" alt="..." class="img-rounded" width="100"></a>
       		</div>
       		<div style="display: table-cell">
         		<h3><?php print $value["caption"]; ?></h3>

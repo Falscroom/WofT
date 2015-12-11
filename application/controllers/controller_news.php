@@ -9,7 +9,8 @@ class Controller_News extends Controller
     	return (object) [
     		"caption" => $_POST["newsCaption"],
     		"ntext" => $_POST["newsText"],
-    		"id" => $id
+    		"id" => $id,
+    		"image" => $_FILES['uploadfile']['name']
     	];
     }
     function action_index() {
@@ -21,6 +22,9 @@ class Controller_News extends Controller
     function action_addnews() {
     	$data["login"] = $this->model->get_login();
     	if (isset($_POST['submit'])) {
+    		if (is_uploaded_file($_FILES['uploadfile']['tmp_name'])) {
+				move_uploaded_file($_FILES['uploadfile']['tmp_name'], 'images/'.$_FILES['uploadfile']['name']);
+    		};
     		$this->model->addnews($this->addnews($news));
     		header("Location: /news");
     	}
@@ -41,6 +45,9 @@ class Controller_News extends Controller
     	$data["news"] = $this->model->viewnews($id['0']);
     	$data["login"] = $this->model->get_login();
     	if (isset($_POST['submit'])) {
+    		if (is_uploaded_file($_FILES['uploadfile']['tmp_name'])) {
+    			move_uploaded_file($_FILES['uploadfile']['tmp_name'], 'images/'.$_FILES['uploadfile']['name']);
+    		};
     		$this->model->editnews($this->addnews($id['0'], $news));
     		header("Location: /news");
     	}
