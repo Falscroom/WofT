@@ -10,9 +10,9 @@
       		<div style="margin: 0px 10px 0px 0px; float: left">
       			<a href="/images/<?php print $value['image']; ?>"><img src="/images/<?php print $value['image']; ?>" alt="..." class="img-rounded" width="100"></a>
       		</div>
-      		<div style="display: table-cell">
+      		<div style="display: table-cell;">
         		<h3><?php print $value["caption"]; ?></h3>
-        		<p><?php print $value["ntext"]; ?></p>
+        		<p ><?php print $value["ntext"]; ?></p>
         		
         	</div>
         	<p align="right"><a href='/news/viewnews/<?php print $value["id"]?>'>Перейти к новости</a></p>

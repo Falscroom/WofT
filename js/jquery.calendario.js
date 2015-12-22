@@ -57,9 +57,10 @@
 
 			this.$el.on( 'mousedown', 'div.fc-row > div', function(event) {
 
+				event.stopPropagation();
 				var $cell = $( this ),
 					idx = $cell.index(),
-					$content = $cell.children( 'div' ),
+					$content = $cell.children( 'div ' ),
 					dateProp = {
 						day : $cell.children( 'span.fc-date' ).text(),
 						month : self.month + 1,
@@ -166,7 +167,6 @@
 						}
 
 						if( content !== '' ) {
-							//alert(content);
 							inner += '<div>' + content + '</div>';
 						}
 
@@ -181,8 +181,7 @@
 					if( content !== '' ) {
 						cellClasses += 'fc-content';
 					}
-
-					html += cellClasses !== '' ? '<div class="' + cellClasses + '">' : '<div>';
+					html += cellClasses !== '' ? '<div class="' + cellClasses + '" oncontextmenu="return false" >' : '<div oncontextmenu="return false">';
 					html += inner;
 					html += '</div>';
 
