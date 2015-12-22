@@ -23,7 +23,7 @@ class Controller_News extends Controller
 		if($this->model->get_rights() & U_EDIT) {
     	$data["login"] = $this->model->get_login();
 			if (isset($_POST['submit'])) {
-				if (is_uploaded_file($_FILES['uploadfile']['tmp_name'])) {
+				if (is_uploaded_file($_FILES['uploadfile']['tmp_name']) and ($_FILES['uploadfile']['type'] == "image/jpeg")) {
 					move_uploaded_file($_FILES['uploadfile']['tmp_name'], 'images/' . $_FILES['uploadfile']['name']);
 				};
 				$this->model->addnews($this->addnews());
