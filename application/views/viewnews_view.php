@@ -13,7 +13,7 @@
         <h3><?php print $value["caption"]; ?></h3>
         <p><?php print $value["ntext"]; ?></p>
       </div>
-      <p align="right"><input name="button" type="button" class="btn btn-default" value="Назад" onclick="(function() {window.location.replace('/news')})()">
+      <p align="right">
       <?php if ($data["rights"] & U_EDIT) {
         print '<a href="/news/editnews/'.$value['id'].'" class="btn btn-default" role="button">Редактировать</a> <a href="/news/deletenews/'.$value['id'].'" class="btn btn-default" role="button">Удалить</a>';
       } ?>
