@@ -11,4 +11,5 @@ require_once 'core/rights.php';
 require_once 'core/user.php';
 require_once 'core/database_info/info.php';
 require_once 'core/model_authorization.php';
+require_once 'core/validator.php';
 Route::start();
